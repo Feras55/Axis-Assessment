@@ -13,8 +13,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/accounts")
 public class AccountController {
-    @Autowired
     private AccountService accountService;
+
+    @Autowired
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     @GetMapping("/{accountId}/balance")
     public ResponseEntity<BalanceResponseDTO> getBalance(@PathVariable Long accountId) {

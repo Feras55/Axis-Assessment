@@ -2,7 +2,8 @@ package com.axis.assessment.service.impl;
 
 
 import com.axis.assessment.entity.Account;
-import com.axis.assessment.exception.AccountValidationException;
+import com.axis.assessment.exception.AlreadyExistsException;
+import com.axis.assessment.exception.ResourceNotFoundException;
 import com.axis.assessment.payload.AccountDTO;
 import com.axis.assessment.payload.response.BalanceResponseDTO;
 import com.axis.assessment.repository.AccountRepository;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.axis.assessment.utils.ApplicationConstants.*;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -31,7 +34,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountDTO openAccount(AccountDTO accountDTO) {
 
         accountRepository.findByUsername(accountDTO.getUsername()).ifPresent(account -> {
-            throw new AccountValidationException("Account already exists");
+            throw new AlreadyExistsException(ACCOUNT, USERNAME, accountDTO.getUsername());
         });
 
         Account account = mapToEntity(accountDTO);
@@ -45,7 +48,7 @@ public class AccountServiceImpl implements AccountService {
     public BalanceResponseDTO getBalance(Long accountId) {
         Double balance = accountRepository.findById(accountId)
                 .map(Account::getBalance)
-                .orElseThrow(() -> new AccountValidationException("Account not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(ACCOUNT, ID, accountId));
 
         return new BalanceResponseDTO(balance);
     }
@@ -53,15 +56,15 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDTO getAccount(Long accountId) {
         Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new AccountValidationException("Account not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(ACCOUNT, ID, accountId));
         return mapToDto(account);
     }
 
     @Override
     public List<AccountDTO> getAccounts() {
         List<Account> accounts = accountRepository.findAll();
-        List<AccountDTO> accountDTOS = accounts.stream().map(account -> mapToDto(account)).collect(Collectors.toList());
-        return accountDTOS;
+        List<AccountDTO> accountsResponse = accounts.stream().map(this::mapToDto).collect(Collectors.toList());
+        return accountsResponse;
     }
 
 

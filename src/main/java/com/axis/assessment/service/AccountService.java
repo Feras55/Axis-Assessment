@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface AccountService {
 
-    public AccountDTO openAccount(AccountDTO accountDTO);
+    AccountDTO openAccount(AccountDTO accountDTO);
 
-    public BalanceResponseDTO getBalance(Long accountId);
+    BalanceResponseDTO getBalance(Long accountId);
 
-    public AccountDTO getAccount(Long accountId);
+    AccountDTO getAccount(Long accountId);
 
-    public List<AccountDTO> getAccounts();
+    List<AccountDTO> getAccounts();
 }
