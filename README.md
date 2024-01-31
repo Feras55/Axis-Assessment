@@ -69,7 +69,7 @@ To get started with the project, follow these steps:
 
 ### Usage
 
-Once the application is running, open postman collection provided and try the provided APIs
+Once the application is running, open postman collection provided in the repository and try the provided APIs
 
 
 ### Documentation
