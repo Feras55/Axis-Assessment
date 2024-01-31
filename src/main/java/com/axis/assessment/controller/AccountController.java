@@ -32,11 +32,6 @@ public class AccountController {
         return new ResponseEntity<>(accountService.openAccount(accountDTO), HttpStatus.CREATED);
     }
 
-    @GetMapping()
-    public ResponseEntity<List<AccountDTO>> getAccounts() {
-        return new ResponseEntity<>(accountService.getAccounts(), HttpStatus.OK);
-    }
-
     @GetMapping("/{accountId}")
     public ResponseEntity<AccountDTO> getAccountById(@PathVariable Long accountId) {
         return new ResponseEntity<>(accountService.getAccount(accountId), HttpStatus.OK);

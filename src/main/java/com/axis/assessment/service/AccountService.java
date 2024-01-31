@@ -12,6 +12,4 @@ public interface AccountService {
     BalanceResponseDTO getBalance(Long accountId);
 
     AccountDTO getAccount(Long accountId);
-
-    List<AccountDTO> getAccounts();
 }

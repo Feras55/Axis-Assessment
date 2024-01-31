@@ -60,14 +60,6 @@ public class AccountServiceImpl implements AccountService {
         return mapToDto(account);
     }
 
-    @Override
-    public List<AccountDTO> getAccounts() {
-        List<Account> accounts = accountRepository.findAll();
-        List<AccountDTO> accountsResponse = accounts.stream().map(this::mapToDto).collect(Collectors.toList());
-        return accountsResponse;
-    }
-
-
     private Account mapToEntity(AccountDTO accountDTO) {
         Account account = modelMapper.map(accountDTO, Account.class);
         return account;
