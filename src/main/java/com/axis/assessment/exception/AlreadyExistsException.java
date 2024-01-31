@@ -16,7 +16,6 @@ public class AlreadyExistsException extends RuntimeException {
         this.fieldValue = fieldValue;
     }
 
-    //no setters required because you have all args constructor
     public String getResourceName() {
         return resourceName;
     }

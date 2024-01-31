@@ -9,9 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/accounts")
 public class AccountController {
@@ -36,5 +33,4 @@ public class AccountController {
     public ResponseEntity<AccountDTO> getAccountById(@PathVariable Long accountId) {
         return new ResponseEntity<>(accountService.getAccount(accountId), HttpStatus.OK);
     }
-
 }

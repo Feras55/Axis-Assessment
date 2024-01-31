@@ -43,6 +43,10 @@ public class TransactionServiceImpl implements TransactionService {
         Account account = accountRepository.findById(transactionDTO.getAccountId())
                 .orElseThrow(() -> new ResourceNotFoundException(ACCOUNT, ID, transactionDTO.getAccountId()));
 
+        if (transactionDTO.getAmount() <= 0) {
+            throw new RequestValidationException(HttpStatus.BAD_REQUEST, VALUE_MUST_BE_GREATER_THAN_ZERO);
+        }
+
         account.setBalance(account.getBalance() + transactionDTO.getAmount());
 
         Transaction transaction = mapToEntity(transactionDTO);
@@ -60,6 +64,9 @@ public class TransactionServiceImpl implements TransactionService {
         Account account = accountRepository.findById(transactionDTO.getAccountId())
                 .orElseThrow(() -> new ResourceNotFoundException(ACCOUNT, ID, transactionDTO.getAccountId()));
 
+        if (transactionDTO.getAmount() <= 0) {
+            throw new RequestValidationException(HttpStatus.BAD_REQUEST, VALUE_MUST_BE_GREATER_THAN_ZERO);
+        }
         if (account.getBalance().compareTo(transactionDTO.getAmount()) < 0) {
             throw new RequestValidationException(HttpStatus.BAD_REQUEST, INSUFFICIENT_FUNDS);
         }
