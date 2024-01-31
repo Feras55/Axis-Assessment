@@ -5,15 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Data
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 public class BalanceResponseDTO {
-    public void setBalance(Double balance) {
-        this.balance = balance;
-    }
-
-    private Double balance;
+    private BigDecimal balance;
 }

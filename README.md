@@ -74,4 +74,4 @@ Once the application is running, open postman collection provided and try the pr
 
 ### Documentation
 
-Swagger UI: http://localhost:8080/swagger-ui/index.html#/
+Swagger UI: http://localhost:8088/swagger-ui/index.html#/

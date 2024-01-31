@@ -12,8 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.math.BigDecimal;
 
 import static com.axis.assessment.utils.ApplicationConstants.*;
 
@@ -38,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
         });
 
         Account account = mapToEntity(accountDTO);
-        account.setBalance(0.0);
+        account.setBalance(BigDecimal.ZERO);
 
 
         return mapToDto(accountRepository.save(account));
@@ -46,7 +45,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public BalanceResponseDTO getBalance(Long accountId) {
-        Double balance = accountRepository.findById(accountId)
+        BigDecimal balance = accountRepository.findById(accountId)
                 .map(Account::getBalance)
                 .orElseThrow(() -> new ResourceNotFoundException(ACCOUNT, ID, accountId));
 

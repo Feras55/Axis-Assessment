@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -51,8 +52,8 @@ class TransactionServiceTest {
     void deposit_Success() {
         // Arrange
         Long accountId = 1L;
-        Double initialBalance = 100.0;
-        Double depositAmount = 50.0;
+        BigDecimal initialBalance = BigDecimal.valueOf(100.0);
+        BigDecimal depositAmount = BigDecimal.valueOf(50.0);
 
         Account account = new Account();
         account.setId(accountId);
@@ -69,15 +70,15 @@ class TransactionServiceTest {
         // Act
         TransactionDTO result = transactionService.deposit(transactionDTO);
         // Assert
-        assertEquals(initialBalance + depositAmount, account.getBalance());
+        assertEquals(initialBalance.add(depositAmount), account.getBalance());
     }
 
     @Test
     void withdraw_Success() {
         // Arrange
         Long accountId = 1L;
-        Double initialBalance = 100.0;
-        Double withdrawalAmount = 50.0;
+        BigDecimal initialBalance = BigDecimal.valueOf(100.0);
+        BigDecimal withdrawalAmount = BigDecimal.valueOf(50.0);
 
         Account account = new Account();
         account.setId(accountId);
@@ -95,15 +96,15 @@ class TransactionServiceTest {
         TransactionDTO result = transactionService.withdraw(transactionDTO);
 
         // Assert
-        assertEquals(initialBalance - withdrawalAmount, account.getBalance());
+        assertEquals(initialBalance.subtract(withdrawalAmount), account.getBalance());
     }
 
     @Test
     void withdraw_Failure_InsufficientFunds() {
         // Arrange
         Long accountId = 1L;
-        Double initialBalance = 50.0;
-        Double withdrawalAmount = 100.0;
+        BigDecimal initialBalance = BigDecimal.valueOf(100.0);
+        BigDecimal withdrawalAmount = BigDecimal.valueOf(50.0);
 
         Account account = new Account();
         account.setId(accountId);

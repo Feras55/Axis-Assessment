@@ -4,6 +4,8 @@ import com.axis.assessment.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 
 @Entity
@@ -14,7 +16,7 @@ public class Transaction {
     private Long id;
 
     @Column(name = "transaction_amount")
-    private Double transactionAmount;
+    private BigDecimal transactionAmount;
 
     @Column(name = "transaction_type")
     private TransactionType transactionType;

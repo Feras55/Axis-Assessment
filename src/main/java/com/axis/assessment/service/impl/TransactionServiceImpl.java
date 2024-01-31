@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static com.axis.assessment.utils.ApplicationConstants.*;
@@ -26,14 +27,12 @@ public class TransactionServiceImpl implements TransactionService {
 
     private TransactionRepository transactionRepository;
     private AccountRepository accountRepository;
-    private AccountService accountService;
     private ModelMapper modelMapper;
 
     @Autowired
-    public TransactionServiceImpl(TransactionRepository transactionRepository, AccountRepository accountRepository, AccountService accountService, ModelMapper modelMapper) {
+    public TransactionServiceImpl(TransactionRepository transactionRepository, AccountRepository accountRepository, ModelMapper modelMapper) {
         this.transactionRepository = transactionRepository;
         this.accountRepository = accountRepository;
-        this.accountService = accountService;
         this.modelMapper = modelMapper;
     }
 
@@ -43,11 +42,11 @@ public class TransactionServiceImpl implements TransactionService {
         Account account = accountRepository.findById(transactionDTO.getAccountId())
                 .orElseThrow(() -> new ResourceNotFoundException(ACCOUNT, ID, transactionDTO.getAccountId()));
 
-        if (transactionDTO.getAmount() <= 0) {
+        if (transactionDTO.getAmount().compareTo(BigDecimal.ZERO) < 1) {
             throw new RequestValidationException(HttpStatus.BAD_REQUEST, VALUE_MUST_BE_GREATER_THAN_ZERO);
         }
 
-        account.setBalance(account.getBalance() + transactionDTO.getAmount());
+        account.setBalance(account.getBalance().add(transactionDTO.getAmount()));
 
         Transaction transaction = mapToEntity(transactionDTO);
 
@@ -64,14 +63,14 @@ public class TransactionServiceImpl implements TransactionService {
         Account account = accountRepository.findById(transactionDTO.getAccountId())
                 .orElseThrow(() -> new ResourceNotFoundException(ACCOUNT, ID, transactionDTO.getAccountId()));
 
-        if (transactionDTO.getAmount() <= 0) {
+        if (transactionDTO.getAmount().compareTo(BigDecimal.ZERO) < 1) {
             throw new RequestValidationException(HttpStatus.BAD_REQUEST, VALUE_MUST_BE_GREATER_THAN_ZERO);
         }
         if (account.getBalance().compareTo(transactionDTO.getAmount()) < 0) {
             throw new RequestValidationException(HttpStatus.BAD_REQUEST, INSUFFICIENT_FUNDS);
         }
 
-        account.setBalance(account.getBalance() - transactionDTO.getAmount());
+        account.setBalance(account.getBalance().subtract(transactionDTO.getAmount()));
         Transaction transaction = mapToEntity(transactionDTO);
 
         transaction.setAccount(account);

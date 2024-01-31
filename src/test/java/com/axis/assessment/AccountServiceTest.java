@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -78,7 +79,7 @@ class AccountServiceTest {
     void getBalance_Success() {
         // Arrange
         Long accountId = 1L;
-        Double balanceValue = 100.0;
+        BigDecimal balanceValue = BigDecimal.valueOf(100.0);
 
         Account account = new Account();
         account.setId(accountId);
