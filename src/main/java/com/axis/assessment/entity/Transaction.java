@@ -13,15 +13,14 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id", nullable = false)
-    private Account account;
-
     @Column(name = "transaction_amount")
     private Double transactionAmount;
 
     @Column(name = "transaction_type")
     private TransactionType transactionType;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account account;
 
 }

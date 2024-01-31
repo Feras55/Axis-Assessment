@@ -3,10 +3,12 @@ package com.axis.assessment.controller;
 import com.axis.assessment.payload.AccountDTO;
 import com.axis.assessment.payload.response.BalanceResponseDTO;
 import com.axis.assessment.service.AccountService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<AccountDTO> openAccount(@RequestBody AccountDTO accountDTO) {
+    public ResponseEntity<AccountDTO> openAccount(@Valid @RequestBody AccountDTO accountDTO) {
         return new ResponseEntity<>(accountService.openAccount(accountDTO), HttpStatus.CREATED);
     }
 

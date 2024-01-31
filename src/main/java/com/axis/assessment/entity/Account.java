@@ -5,11 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "accounts")
+@Table(name = "accounts", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,10 +27,7 @@ public class Account {
     @Column(name = "balance")
     private Double balance;
 
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Transaction> transactions = new HashSet<>();
 
-    public Account(String username, String password, Double balance) {
-        this.username = username;
-        this.password = password;
-        this.balance = balance;
-    }
 }
